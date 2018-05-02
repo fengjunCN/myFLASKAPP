@@ -1,0 +1,59 @@
+{%  extends "header.html"%}
+{% block body%}
+  <!-- Tab panes -->
+<div class="row">
+<div class="col s12 m4 l3"> <!-- Note that "m4 l3" was added -->
+<ul class="tabs">
+    <li class="tab"><a href="#tab1">『CS学习分享』</a></li>
+    <li class="tab"><a href="#tab2">『随述』</a></li>
+</ul>
+<div id="tab1" class="">
+  <ul class="collapsible">
+	{% for ky in TOPIC_DICT%}
+		<li><div class="collapsible-header"><i class="material-icons">import_contacts</i>{{ky}}</div>
+		{%for t in TOPIC_DICT[ky] %}
+		<div class="collapsible-body"><span><a href="{{t[1]}}">{{t[0]}}</a></span></div>
+		{% endfor %}
+	{% endfor %}
+	</li>
+   </ul>
+</div>
+<div id="tab2" class="">
+  <ul class="collapsible">
+	{% for ky in TOPIC_DICT_articles%}
+		<li><div class="collapsible-header"><i class="material-icons">import_contacts</i>{{ky}}</div>
+		{%for t in TOPIC_DICT_articles[ky] %}
+		<div class="collapsible-body"><span><a href="{{t[1]}}">{{t[2]}}</a></span></div>
+		{% endfor %}
+	{% endfor %}
+	</li>
+   </ul>
+</div>
+</div>
+      <div class="col s12 m8 l9"> <!-- Note that "m8 l9" was added -->
+<h3>『叙述故事写作』</h3>
+
+<p class="flow-text">
+曾经请教过一位演讲俱乐部的组织者，他分享到，口才训练技巧有很多，但最根本的是，有东西可讲，并且能有条理地把东西呈现出来。所以孩子练口才，其实首先要练写作。因为无论是写还是说，都是一个把自己的思想表达出来的过程，只是写稍微慢些，而说比较快而已。但它们之间是相通的，同样需要有话题，有想法，同样需要整理想法，所以训练口才首先就得训练写作。写就相当于慢慢地“讲”，慢慢地“讲”多了自然就能说，之所以能出口成章，是因为心里本来就有文章。
+　　听他这么一讲，我马上想到逃逃这几年上的写作课，发现还真是这样，就拿他们在一二年级最开始练习的Narrative Stories Writing（叙述故事写作）来说，其实就是一个教孩子如何“讲故事”的过程，原来他们天天都在练口才啊。
+　　下面我就来和大家好好掰一掰这个Narrative Stories Writing，老师在教学过程中用到的不少图、表、方法都很值得我们借鉴。
+　　首先什么是Narrative Stories Writing呢？其实就是我们常说的记叙文写作，不过对于一二年级的孩子来说，和我们小时候一样，一开始写记叙文肯定是从自己最熟悉的事情开始，老师给出了Narrative Stories叙述性故事的<a class="waves-effect waves-light btn modal-trigger" href="#modal1">几个特点：</a></p>
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>几个特点</h4>
+      <img src="{{ url_for('static', filename='images/dash_001.jpeg') }}" class="z-depth-2" width="80%">
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">关闭</a>
+    </div>
+  </div>
+<p class="flow-text">
+　　它由一系列事件构成，这些事件会有前后顺序 ；
+　　它是你经历过的一个真实故事；
+　　它是和你的生活息息相关，而且你自己也很有感受的事情。
+　　了解了叙述性故事的特点之后，接下来就是选择写作话题了。</p>
+   
+</div>
+</div>
+{%endblock%}

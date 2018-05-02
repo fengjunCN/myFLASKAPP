@@ -1,0 +1,146 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+	<meta charset="gb2312">
+	<!--低版本浏览器模拟渲染-->
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!--支持国产浏览器的高速渲染-->
+	<meta name="renderer" content="Webkit">
+	<!--在此进行SEO设置：作者、关键词、描述-->
+	<meta name="author" content="FENGJUN">
+	<meta name="keywords" content="FENGJUN">
+	<meta name="description" content="FENGJUN">
+	<title>Jack(Jun)Feng</title>
+	<link rel="shortcut icon" href="{{ url_for('static', filename='cube.png') }}">
+	<!--Import materialize.css-->
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/materialize.min.css') }}" > 
+	<!--Import Google Icon Font-->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+	<!--<link rel="stylesheet" type="text/css" href="materialize/css/bootstrap.css">-->
+	<script src="{{ url_for('static', filename='js/jquery-3.2.1.min.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/0.97.3/materialize.min.js') }}"></script>
+	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>-->
+</head>
+<header>
+<div class="navbar-fixed">
+<nav>
+<div class="nav-wrapper container">
+      <a href="/dashboard/" class="brand-logo"><img class="img-responsive" style="width:100px; height:50px; margin-top:2px" src="{{ url_for('static', filename='images/mainlogo.png') }}"></a>
+      <a href="#" data-activates="navsidebar" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+	<li><i class="material-icons">search</i></li>
+	<li>
+	<form method='get' id='searchform' style='height:50px' action='/search/?l=hi'>
+	<input name='q' id="search" type="search" placeholder="search" style='font-size:16px'>
+	</form>
+	</li>
+	<li><a href="/">主页</a></li>
+			{% if session.logged_in %}
+			<li><a href="/support-donate/">  支持  </a></li>
+			<li><a href="/logout/"> 注销  </a></li>
+			<li>Welcome,{{session.username}}</li>
+			{% else %}
+			<li><a href="/support-donate/">  支持   </a></li>
+			<li><a href="/login/"> 登录   </a></li>
+			<li><a href="/register/"> 注册</a></li>
+			{% endif %}
+      </ul>
+  <ul class="side-nav" id="navsidebar">
+	<li><i class="material-icons">search</i></li>
+	<li>
+	<form method='get' id='searchform' style='padding-top:0px' action='/search/?l=hi'>
+	<input name='q' id="search" type="search" placeholder="search"  style='font-size:16px'>
+	</form>
+	</li>
+			{% if session.logged_in %}
+			<li><span class="blue-text text-darken-2"><h5>欢迎,{{session.username}}</h5></li>
+			<li><a href="/">主页</a></li>
+			<li><a href="/support-donate/"> 支持  </a></li>
+			<li><a href="/logout/"> Logout  </a></li>
+			{% else %}
+			<li><a href="/">主页</a></li>
+			<li><a href="/support-donate/">  支持   </a></li>
+			<li><a href="/login/"> 登录   </a></li>
+			<li><a href="/register/"> 注册</a></li>
+			{% endif %}
+  </ul>
+  </div>
+</nav>
+</div>
+</header>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+   {% for message in messages %}
+       <script>Materialize.toast('{{message}}', 4000,classes: 'rounded')</script>
+  {% endfor %}
+  {% endif %}
+{% endwith %}
+<body>
+ {% block body %}
+ {% endblock %}
+<!--scripts-->
+<script type="text/javascript">
+　　function not_fun(msg){
+		if (msg!=''){
+　　 　　 M.toast({html: msg, classes: 'rounded'}); }　　
+　　}
+
+</script>
+		<script>
+			$(document).ready(function(){
+				$(".button-collapse").sideNav();
+				$('.modal-trigger').leanModal();
+				$('.collapsible').collapsible({
+				  accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+				});
+				$('#aside').pushpin({ top:110, bottom:500 });
+		  });
+		</script>
+
+		<script>
+		  $(document).ready(function(){
+			$('.collapsible').collapsible({
+			  accordion : false // A setting that changes the collapsible behavior to expandable instead of the default accordion style
+			});
+			$('select').material_select();
+		  });
+	  </script>
+	  <script>
+		function goBack() {
+			window.history.back()
+		}
+	</script>
+
+<!--<script src="/static/js/materialize.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>-->
+<script src="/static/js/init.js"></script>
+
+<script type="text/javascript" src=""{{ url_for('static', filename='js/run_prettify.js') }}"></script>
+<footer class="page-footer">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">Hi, dude. You'v reached the end!</h5>
+                <p class="grey-text text-lighten-4">Here is the end, but not the end of your visiting this WebSite.</p>
+		<p class="grey-text text-lighten-4">Contact:  <a class="grey-text lighten-1">jak2013jak@gmail.com</a></p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Note here:</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="#!">Terms of service</a></li>
+                  <li><a class="grey-text text-lighten-3" href="#!">About privacy</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container">
+            © 2018 Copyright
+            <a class="grey-text text-lighten-4 right" href="#!">More contents coming...</a>
+            </div>
+          </div>
+</footer>
+</body>
+</html>	  
