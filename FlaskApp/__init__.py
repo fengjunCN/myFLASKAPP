@@ -42,6 +42,19 @@ app.config.update(
                   )
 mail = Mail(app)
 
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+	try:
+        	if 'logged_in' in session:
+            		return f(*args, **kwargs)
+        	else:
+            		flash("You need to login first")
+            		return redirect(url_for('login'))
+	except Exception as e:
+		return str(e)
+    return wrap
+
 @app.route("/")
 def homepage():
     return render_template("main.html")
@@ -187,6 +200,7 @@ def balance_between_school_and_home():
         return (str(e))
 
 @app.route(TOPIC_DICT["SQLite"][0][1], methods=['GET', 'POST'])
+@login_required
 def Inserting_into_a_Database_with_SQLite():
     lastnum=len(TOPIC_DICT["SQLite"])-1
     try:
@@ -424,16 +438,7 @@ def page_not_found(e):
 	
 	
 	
-def login_required(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return f(*args, **kwargs)
-        else:
-            flash("You need to login first")
-            return redirect(url_for('login_page'))
 
-    return wrap
 
 @app.route("/logout/")
 @login_required

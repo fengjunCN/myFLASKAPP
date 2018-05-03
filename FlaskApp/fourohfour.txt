@@ -1,1 +1,1 @@
-/dashboard/images/donate.png
+/login/images/donate.png

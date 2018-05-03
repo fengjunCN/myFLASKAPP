@@ -10,7 +10,7 @@
 <div id="tab1" class="">
   <ul class="collapsible">
 	{% for ky in TOPIC_DICT%}
-		<li><div class="collapsible-header"><i class="material-icons">import_contacts</i>{{ky}}</div>
+		<li><div class="collapsible-header"><i class="material-icons" style="color:#1b5e20">import_contacts</i>{{ky}}</div>
 		{%for t in TOPIC_DICT[ky] %}
 		<div class="collapsible-body"><span><a href="{{t[1]}}">{{t[0]}}</a></span></div>
 		{% endfor %}
@@ -21,7 +21,7 @@
 <div id="tab2" class="">
   <ul class="collapsible">
 	{% for ky in TOPIC_DICT_articles%}
-		<li><div class="collapsible-header"><i class="material-icons">import_contacts</i>{{ky}}</div>
+		<li><div class="collapsible-header"><i class="material-icons" style="color:#b71c1c">toc</i>{{ky}}</div>
 		{%for t in TOPIC_DICT_articles[ky] %}
 		<div class="collapsible-body"><span><a href="{{t[1]}}">{{t[2]}}</a></span></div>
 		{% endfor %}
