@@ -1,1 +1,1 @@
-/login/images/donate.png
+/admin/assets/js/views/login.js

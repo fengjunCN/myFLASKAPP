@@ -6,6 +6,10 @@ from wtforms import Form, BooleanField, TextField, PasswordField, validators
 from passlib.hash import  sha256_crypt
 from MySQLdb import escape_string as thwart
 from functools import wraps
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+from dash.dependencies import Input, State, Output
 import gc
 import os
 import smtplib
@@ -13,7 +17,7 @@ import smtplib
 #reload(sys)
 #sys.setdefaultencoding('utf8') 
 from flask_mail import Mail, Message
-
+from threading import Thread
 #context = SSL.Context(SSL.SSLv23_METHOD)
 #context.use_privatekey_file('/etc/apache2/ssl/apache.key')
 #context.use_certificate_file('/etc/apache2/ssl/apache.crt')
@@ -21,6 +25,51 @@ TOPIC_DICT = CS_Content()
 TOPIC_DICT_articles = ATL_Content()
 
 app = Flask(__name__)
+#dashApp = dash.Dash(__name__,server=app)
+dashApp = dash.Dash(server=app,url_base_pathname='/dash/')
+dashApp.layout =  html.Div(
+    children=[
+        dcc.Dropdown(
+        id='my-dropdown-1',
+        options=[
+            {'label': 'NYC', 'value': 'NYC'},
+            {'label': 'MTL', 'value': 'MTL'}
+        ],
+        value='MTL'
+    ),
+        dcc.Graph(id = 'my-graph', figure={
+             'data': [{'x': [1, 2, 3], 'y': [4, 3, 1], 'type': 'bar'}],
+             'layout': {'title': 'My Bar Graph'}
+        })
+    ]
+)
+
+@dashApp.callback(Output('my-graph', 'figure'),
+              [Input('my-dropdown-1', 'value')])
+def update_graph(selected_city):
+    if selected_city=='NYC':
+        figure={
+            'data': [
+                {'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'SF'},
+                {'x': [1, 2, 3], 'y': [2, 4, 5], 'type': 'bar', 'name': u'Montral'},
+            ],
+            'layout': {
+                'title': 'Dash Data Visualization for NYC'
+            }
+        }
+
+    else:
+        figure={
+            'data': [
+                {'x': [1, 2, 3], 'y': [4, 1, 2], 'type': 'bar', 'name': 'SF'},
+                {'x': [1, 2, 3], 'y': [2, 4, 9], 'type': 'bar', 'name': u'Montral'},
+            ],
+            'layout': {
+                'title': 'Dash Data Visualization for Any Other Path'
+            }
+        }
+
+    return figure
 
 #app.config.update(
 #	DEBUG=True,
@@ -35,13 +84,20 @@ app.config.update(
                   DEBUG=True,
                   #EMAIL SETTINGS
                   MAIL_SERVER='smtp.qq.com',
-                  MAIL_PORT=465,
-                  MAIL_USE_SSL=True,
-                  MAIL_USERNAME = '103886415',
-                  MAIL_PASSWORD = 'hbawxncxckmcbhie'
+		  MAIL_PORT= 465,
+   		  MAIL_USE_TLS= False,
+  		  MAIL_USE_SSL= True,
+		  MAIL_USERNAME = '103886415@qq.com',
+		  MAIL_PASSWORD = 'ljodzdiuamaicbbj'
                   )
 mail = Mail(app)
 
+def async_mail(f):
+	@wraps(f)
+	def warp(*args, **kwargs):
+		thr = Thread(target=f,args=args,kwargs=kwargs)
+		thr.start()
+	return wrap
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
@@ -59,6 +115,8 @@ def login_required(f):
 def homepage():
     return render_template("main.html")
     #return render_template("test.html")
+
+
 
 @app.route("/dashboard/", methods=['GET','POST'])
 def dashboard():
@@ -535,12 +593,16 @@ def converter(page=1):
 def send_mail():
 	try:	
 		
-		msg = Message("Send Mail Tutorial!",
+		msg = Message("Send Mail Tutorial!02",
 		  sender=('103886415@qq.com'),
-		  recipients=['jak2017jak@gmail.com'])
-		msg.body = "Yo!\nHave you heard the good word of Python???"           
-		mail.send(msg)
-		return ("Mail sent!")
+		  recipients=['jun.feng@honeywell.com'])
+		msg.body = "Yo!\nHave you heard the good word of Python???" 
+		with app.app_context():
+        		try:
+            			mail.send(msg)
+            			return ("Mail sent!")
+        		except Exception as e:
+            			return (str(e))         
 	except Exception as e:
 		return (str(e))
 ########example area#########
@@ -627,3 +689,4 @@ class RegisterForm(Form):
 if __name__ == "__main__":
 #     app.run(ssl_context=context)
     app.run(debug=True)
+    dashApp.run_server(debug=True)
